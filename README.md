@@ -45,7 +45,7 @@ pytest -q
 
 ## Live page (optional)
 
-`python live.py out.html` writes one English page with two tabs:
+`python live.py out.html` writes one English page with two tabs (running at https://andriarezki.tech/predictions/):
 
 - **Premier League:** predictions for the upcoming round (from the football-data.co.uk fixtures file, when published) and the season so far, every match predicted before it was played, next to the bookmaker line.
 - **Liga 1 Indonesia (BRI Super League):** predictions for this week's matches (league website, `robots.txt` allows it) from a time-decayed Poisson model trained on Wikipedia results. The report card is trained on last season only and scored on this season's matches it never saw. There are no bookmaker odds for Liga 1, so the benchmark is last season's home/draw/away split.

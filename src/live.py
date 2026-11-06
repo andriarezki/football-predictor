@@ -110,7 +110,7 @@ def build_page(leagues: list[dict], updated: str) -> str:
         f'<p class="muted">{l.get("note", "")}</p></section>' for l in leagues)
     show = "".join(f'#r-{l["key"]}:checked~main #p-{l["key"]}{{display:block}}#r-{l["key"]}:checked~main label[for=r-{l["key"]}]{{background:var(--a);color:#fff}}' for l in leagues)
     return f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="robots" content="noindex"><title>Football match predictions</title>
+<title>Football match predictions</title>
 <style>
 :root{{--bg:#f7f8f6;--fg:#1d2733;--card:#fff;--line:#e1e5e9;--mut:#52606d;--a:#2c7a7b;--b:#9aa5b1;--c:#d98e04}}
 @media (prefers-color-scheme:dark){{:root{{--bg:#14181c;--fg:#e8ecef;--card:#1d2328;--line:#2d353c;--mut:#9aa7b2}}}}

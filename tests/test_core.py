@@ -109,7 +109,7 @@ def test_live_prediction_and_page():
     empty = {"key": "liga1", "name": "Liga 1 Indonesia", "fixtures_html": live.render_fixtures(pd.DataFrame(), "No fixtures"),
              "track_html": "", "note": ""}
     page = live.build_page([league, empty], "test")
-    assert "A</b> vs <b>F" in page and "not betting advice" in page and 'name="robots"' in page
+    assert "A</b> vs <b>F" in page and "not betting advice" in page
     assert "No fixtures" in page and "Liga 1 Indonesia" in page
 
 
