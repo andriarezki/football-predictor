@@ -1,0 +1,6 @@
+model,matches,accuracy,brier,log_loss
+bookmaker,760,0.5658,0.556,0.9399
+logistic,760,0.5513,0.5706,0.9597
+poisson,760,0.5368,0.5728,0.9646
+grad_boost,760,0.5408,0.5824,0.9786
+baseline_freq,760,0.4342,0.6462,1.0673

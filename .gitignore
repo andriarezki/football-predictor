@@ -1,0 +1,7 @@
+.deps/
+__pycache__/
+.pytest_cache/
+data/raw/
+data/*.db
+data/*.pkl
+docs/sql_rolling_form.csv
