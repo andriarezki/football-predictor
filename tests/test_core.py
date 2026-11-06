@@ -104,7 +104,28 @@ def test_live_prediction_and_page():
                         "odds_h": 1.5, "odds_d": 4.0, "odds_a": 7.0}])
     p = live.predict_fixtures(m, fx)
     assert abs(sum(p.loc[0, "p"]) - 1) < 1e-9 and p.loc[0, "p"][0] > p.loc[0, "p"][2]
-    html = live.build_page(p, {"n": 0}, "test")
-    assert "A</b> vs <b>F" in html and "bukan saran taruhan" in html and 'name="robots"' in html
-    empty = live.build_page(pd.DataFrame(), {"n": 0}, "test")
-    assert "Belum ada jadwal" in empty
+    league = {"key": "epl", "name": "Premier League", "fixtures_html": live.render_fixtures(p, "none"),
+              "track_html": live.render_track({"n": 0}, ""), "note": ""}
+    empty = {"key": "liga1", "name": "Liga 1 Indonesia", "fixtures_html": live.render_fixtures(pd.DataFrame(), "No fixtures"),
+             "track_html": "", "note": ""}
+    page = live.build_page([league, empty], "test")
+    assert "A</b> vs <b>F" in page and "not betting advice" in page and 'name="robots"' in page
+    assert "No fixtures" in page and "Liga 1 Indonesia" in page
+
+
+def test_liga1_parsing():
+    from src import liga1
+
+    raw = """|name_AFC={{nowrap|[[Arema F.C.|Arema]]}}
+|name_PSB={{nowrap|[[Persib Bandung|Persib]]}}
+|match_AFC_PSB=1–3
+|match_PSB_AFC=
+"""
+    names, df = liga1.parse_wikitext(raw)
+    assert names == {"AFC": "Arema", "PSB": "Persib"} and df.to_dict("records") == [{"home": "Arema", "away": "Persib", "hg": 1, "ag": 3}]
+    html_ = """<div align="left" style="margin-top:10px" class="col-md-12">
+        Friday, 06 November 2026</div><table><tr height="25" class="table-row"><td><b>AREMA FC</b></td>
+        <td><span>19:00</span></td><td><b>PERSIB BANDUNG</b></td><td width="30%" align="left">
+        Some Stadium </td></tr></table>"""
+    fx = liga1.parse_fixtures(html_, ["Arema", "Persib"])
+    assert fx.loc[0, "home"] == "Arema" and fx.loc[0, "away"] == "Persib" and fx.loc[0, "time"] == "19:00"

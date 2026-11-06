@@ -45,11 +45,18 @@ pytest -q
 
 ## Live page (optional)
 
-`python live.py out.html` refreshes the data, predicts the upcoming Premier League fixtures when they are published, and writes a small page with a running, out-of-sample track record for the current season (models only ever see earlier matches). Run it from cron, for example on Tuesdays and Fridays:
+`python live.py out.html` writes one English page with two tabs:
+
+- **Premier League:** predictions for the upcoming round (from the football-data.co.uk fixtures file, when published) and the season so far, every match predicted before it was played, next to the bookmaker line.
+- **Liga 1 Indonesia (BRI Super League):** predictions for this week's matches (league website, `robots.txt` allows it) from a time-decayed Poisson model trained on Wikipedia results. The report card is trained on last season only and scored on this season's matches it never saw. There are no bookmaker odds for Liga 1, so the benchmark is last season's home/draw/away split.
+
+Run it from cron, for example daily:
 
 ```bash
 python live.py /var/www/predictions/index.html
 ```
+
+Limits: Wikipedia results carry no dates, so the Liga 1 model only separates this season from last season; stadiums can be neutral or borrowed; promoted teams with no history get a rough default.
 
 ## Honest notes
 
