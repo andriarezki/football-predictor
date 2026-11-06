@@ -30,7 +30,8 @@ Re-run `python run.py` to reproduce; the numbers are written to `docs/results.cs
 | Poisson model | `src/poisson.py` | Attack/defence strengths and home advantage with exponential time decay (a simplified Dixon-Coles idea) |
 | Backtest | `src/evaluate.py` | Walk-forward: for every month retrain on the past, predict that month. Brier score, log loss, accuracy |
 | Dashboard | `src/dashboard.py` | Self-contained HTML with charts (`docs/dashboard.html`) |
-| Tests | `tests/` | 7 pytest tests: parsing, no-leakage check, probabilities sum to 1, metrics, backtest, SQL |
+| Live page | `live.py`, `src/live.py` | Predicts upcoming fixtures and shows a running season track record |
+| Tests | `tests/` | 8 pytest tests: parsing, no-leakage check, probabilities sum to 1, metrics, backtest, SQL, live page |
 
 ## How to run
 
@@ -39,6 +40,15 @@ pip install -r requirements.txt
 python run.py              # downloads data, runs SQL + backtest, writes docs/results.csv
 python build_dashboard.py  # writes docs/dashboard.html
 pytest -q
+```
+
+
+## Live page (optional)
+
+`python live.py out.html` refreshes the data, predicts the upcoming Premier League fixtures when they are published, and writes a small page with a running, out-of-sample track record for the current season (models only ever see earlier matches). Run it from cron, for example on Tuesdays and Fridays:
+
+```bash
+python live.py /var/www/predictions/index.html
 ```
 
 ## Honest notes

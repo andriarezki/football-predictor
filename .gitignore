@@ -5,3 +5,4 @@ data/raw/
 data/*.db
 data/*.pkl
 docs/sql_rolling_form.csv
+data/

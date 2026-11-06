@@ -94,3 +94,17 @@ def test_sql_queries(tmp_path):
     table = q["final_table"]
     assert table["pos"].min() == 1
     assert table["played"].sum() == 2 * len(m)
+
+
+def test_live_prediction_and_page():
+    from src import live
+
+    m = fake_matches(n_rounds=60)
+    fx = pd.DataFrame([{"date": pd.Timestamp("2023-06-01"), "Time": "15:00", "home": "A", "away": "F",
+                        "odds_h": 1.5, "odds_d": 4.0, "odds_a": 7.0}])
+    p = live.predict_fixtures(m, fx)
+    assert abs(sum(p.loc[0, "p"]) - 1) < 1e-9 and p.loc[0, "p"][0] > p.loc[0, "p"][2]
+    html = live.build_page(p, {"n": 0}, "test")
+    assert "A</b> vs <b>F" in html and "bukan saran taruhan" in html and 'name="robots"' in html
+    empty = live.build_page(pd.DataFrame(), {"n": 0}, "test")
+    assert "Belum ada jadwal" in empty
